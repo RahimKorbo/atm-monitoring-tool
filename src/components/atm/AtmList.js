@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import HeadNavFoot from "../../components/HeadNavFoot";
+import React, { Component } from "react"
+import HeadNavFoot from "../HeadNavFoot";
 import { Link } from "react-router-dom";
-
 export default class AtmList extends Component {
    
   constructor(props) {

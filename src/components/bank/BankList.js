@@ -2,49 +2,27 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import BankListItems from "./BankListItems";
+// import BankListItems from "./BankListItems";
 import HeadNavFoot from "../../components/HeadNavFoot";
 import { getBanks } from "../../redux/actions/BankActions";
 
 class BankList extends Component {
   constructor(props) {
-    super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-    this.state = { //state is by default an object
-       banksTestList: [
-          { bankName: 'SDCC', bankStatus: '1', activeAtms: 21, inactiveAtms: 4 },
-          { bankName: 'KDCC', bankStatus: '0', activeAtms: 21, inactiveAtms: 4 },
-          { bankName: 'NDCC', bankStatus: '1', activeAtms: 21, inactiveAtms: 4 },
-          { bankName: 'ShreeCharan', bankStatus: '1', activeAtms: 21, inactiveAtms: 4 },
-          { bankName: 'GP parsik', bankStatus: '1', activeAtms: 21, inactiveAtms: 4 },
-       ]
-    }
- }
-  renderTableData() {
-  return this.state.banksTestList.map((bankValue, bankkey) => {
-     const { bankName, bankStatus, activeAtms, inactiveAtms } = bankValue //destructuring
-     return (
-     
-        <tr key={bankName}>
-           <td> <Link to="/atmList">{bankName}</Link></td>
-           <td>{activeAtms}</td>
-           <td>{inactiveAtms}</td>
-           {/* <td>{bankStatus === 0 && (
-            <span className="approve">Active</span>
-          )}
-          {bankStatus != 0 && (
-            <span className="reject">Inactive</span>
-          )}</td> */}
-          <td>
-            {bankStatus !=0 ? <span className="approve">Active</span> : <span className="reject">InActive</span>}
-            
-          </td>
-           <td><a href="#" className="viewbtn"><img src="../images/icon/view.png" alt="view" /></a></td>
-           
-        </tr>
-       
-     )
-  })
-}
+    super(props); //since we are extending class Table so we have to use super in order to override Component class constructor
+    
+    this.state = {
+      //state is by default an object
+      banksTestList: [
+        { bank : { bankName: "SDCC", tenantId: 11011, bankStatus: "1" }, activeAtms: 21, inactiveAtms: 4 },
+        { bank : { bankName: "KDCC", tenantId: 11012, bankStatus: "0" } , activeAtms: 21, inactiveAtms: 4 },
+        { bank : { bankName: "NDCC", tenantId: 11013, bankStatus: "1" }, activeAtms: 21, inactiveAtms: 4 },
+        { bank : { bankName: "ShreeCharan",tenantId: 11014, bankStatus: "1" }, activeAtms: 21, inactiveAtms: 4},
+        { bank : { bankName: "GP parsik", tenantId: 11015, bankStatus: "1" },activeAtms: 21, inactiveAtms: 4}
+      ],
+    };
+  }
+
+
   componentDidMount() {
     // if (!this.props.load) {
     //   this.props.getBanks();
@@ -56,16 +34,51 @@ class BankList extends Component {
     document.body.appendChild(script);
   }
 
+
+  
+  renderTableData() {
+     return this.state.banksTestList.map((bankValue, bankkey) => {
+    //return this.props.banks.map((bankValue, bankkey) => {
+      const { bank, activeAtms, inactiveAtms } = bankValue; //destructuring
+      const { bankName, bankStatus } = bank;
+      return (
+        <tr key={bankName}>
+          <td>
+            {" "}
+            <Link to={{pathname:"/atmList" , state:{item:bank}}} style={{ color: "black" }}>
+              {bankName}
+            </Link>
+          </td>
+          <td>{activeAtms}</td>
+          <td>{inactiveAtms}</td>
+          <td>
+            {bankStatus != 0 ? (
+              <span className="approve">Active</span>
+            ) : (
+              <span className="reject">InActive</span>
+            )}
+          </td>
+          <td>
+            <a href="#" className="viewbtn">
+              <img src="../images/icon/view.png" alt="view" />
+            </a>
+          </td>
+        </tr>
+      );
+    });
+  }
+  
+
   render() {
     console.log(this.props);
 
-    const bankOptions = this.props.banks.map((bankItem,i)=>{
-        return <option value={bankItem.bank.bankName}><Link to="/atmList">{bankItem.bank.bankName}</Link></option>
-    })
-
-    const bankItems = this.props.banks.map((bankItem, i) => {
-      return <BankListItems key={bankItem.bank.tenantId} item={bankItem} />;
-    });
+    // const bankOptions = this.props.banks.map((bankItem, i) => {
+    //   return (
+    //     <option value={bankItem.bank.bankName}>
+    //       <Link to="/atmList">{bankItem.bank.bankName}</Link>
+    //     </option>
+    //   );
+    // });
 
     return (
       <div>
@@ -117,7 +130,7 @@ class BankList extends Component {
                                             <em>New Bank</em>
                                           </a>
                                         </li>
-                                        
+
                                         <li>
                                           <a
                                             href="javascript:;"
@@ -198,17 +211,12 @@ class BankList extends Component {
             </div>
             {/* .container-fluid  */}
           </div>
-         
+
           {/* .in-main */}
         </main>
         {/* .main-container */}
         {/* ============================================== Main Page Content - End ===============================================*/}
-      
-      
-        
-      
       </div>
-
     );
   }
 }

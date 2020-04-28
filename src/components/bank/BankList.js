@@ -29,7 +29,7 @@ class BankList extends Component {
     // }
 
     const script = document.createElement("script");
-    script.src = `js/contentDatatable.js`;
+    script.src = `js/effectScripts.js`;
     script.async = true;
     document.body.appendChild(script);
   }
@@ -45,7 +45,7 @@ class BankList extends Component {
         <tr key={bankName}>
           <td>
             {" "}
-            <Link to={{pathname:"/atmList" , state:{item:bank}}} style={{ color: "black" }}>
+            <Link to={{pathname:"/bankDashboard" , state:{item:bank}}} style={{ color: "black" }}>
               {bankName}
             </Link>
           </td>
@@ -70,7 +70,7 @@ class BankList extends Component {
   
 
   render() {
-    console.log(this.props);
+    console.log("Data from BackEnd----",this.state);
 
     // const bankOptions = this.props.banks.map((bankItem, i) => {
     //   return (
